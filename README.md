@@ -1,14 +1,15 @@
 # Getting started
 1. clone repo
-2. `cd` into project directory.
+2. Open a terminal
+2. `cd` into project directory
 3. `cd client` then `npm install`
 4. `cd ..\server` then `npm install`
 
 # Prior to running application
-1. Ensure you have `nodemon` installed.
-    * See [here](https://www.npmjs.com/package/nodemon)
+1. Ensure you have `nodemon` and `concurrently` installed.
+    * See [here](https://www.npmjs.com/package/nodemon) and [here](https://www.npmjs.com/package/concurrently)
 2. Setup `.\client\.env` as shown
-    * You will need values from the Firebae SDK Config panel
+    * Obtain Firebase SDK Config values via `Firebase > Project Settings > General`
     * Replace `<Port>` with the port used for the server (next step).
     ```
     # Firebase
@@ -26,11 +27,13 @@
     * `<Port>` can be whatever, but is typically `5000`
     ```
     PORT=<Port>
+    GCLOUD_PROJECT=corgo-tech
     ```
-4. Obtain Firebase Service Account key (its a JSON file), name it `serviceAccountKey.json`, then place it in `.\server\configs`
+4. Install Google Cloud CLI and run the following in a terminal
+    * `gcloud auth application-default login`
+        * Use the account connected to the project 
 
 
 # To run application
-1. `cd server` then `npm start`
-2. `cd ..\client` then `npm start`
-    * Should auto open a broser Window.
+1. At the root of the project, run the following:
+    * `npm start`

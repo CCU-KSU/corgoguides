@@ -1,15 +1,16 @@
 # Getting started
-1. clone repo
+1. Clone repo
 2. Open a terminal
-2. `cd` into project directory
-3. `cd client` then `npm install`
-4. `cd ..\server` then `npm install`
+3. `cd` into project directory
+4. `cd client` then `npm install`
+5. `cd ..\server` then `npm install`
 
 # Prior to running application
 1. Ensure you have `nodemon` and `concurrently` installed.
     * See [here](https://www.npmjs.com/package/nodemon) and [here](https://www.npmjs.com/package/concurrently)
 2. Setup `.\client\.env` as shown
-    * Obtain Firebase SDK Config values via `Firebase > Project Settings > General`
+    * Obtain Firebase SDK Config values via `Firebase > Project Settings > General`, scroll to "Your apps", And select "Corgo Tech
+"
     * Replace `<Port>` with the port used for the server (next step).
     ```
     # Firebase

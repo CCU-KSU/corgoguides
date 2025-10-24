@@ -1,26 +1,8 @@
-# Node
-client/node_modules/
-server/node_module
-
-# Build
-# Build output
-client/dist/
-server/dist/
-
-# Environment files
-*.env
-*.env.*
-
-# Logs
-*.log
-
-# OS-specific files
-.DS_Store
-Thumbs.db
-
-# Editor folders
+**/node_modules
+.env
 .vscode/
-
-# Dependency lock files (optional, if you don't want to track them)
-client/package-lock.json
-server/package-lock.json
+*.log
+*.bak
+npm-debug.log*
+yarn-error.log*
+serviceAccountKey.json

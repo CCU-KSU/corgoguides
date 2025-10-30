@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>App Matcher Admin</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 2rem;
+      background-color: #f4f4f4;
+    }
+    h1 {
+      color: #333;
+    }
+    textarea, input, button {
+      width: 100%;
+      margin: 0.5rem 0;
+      padding: 0.5rem;
+      font-size: 1rem;
+    }
+    button {
+      background-color: #0078d4;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #005fa3;
+    }
+    .results {
+      margin-top: 2rem;
+      background: white;
+      padding: 1rem;
+      border-radius: 5px;
+    }
+    .app {
+      border-bottom: 1px solid #ccc;
+      padding: 0.5rem 0;
+    }
+  </style>
+</head>
+<body>
+  <h1>App Matcher Admin Panel</h1>
+
+<div id="login-section">
+  <h2>Admin Login</h2>
+  <input type="text" id="username" placeholder="Username" />
+  <input type="password" id="password" placeholder="Password" />
+  <button onclick="login()">Login</button>
+  <p id="login-status"></p>
+</div>
+
+  <label for="interests">User Interests (comma-separated):</label>
+  <input type="text" id="interests" placeholder="e.g., productivity, games, finance" />
+
+  <label for="appCatalog">App Catalog (JSON format):</label>
+  <textarea id="appCatalog" rows="10" placeholder='[{"name":"FinancePro","tags":["finance","budget"]}, {"name":"GameZone","tags":["games","fun"]}]'></textarea>
+
+  <button onclick="matchApps()">Match Apps</button>
+
+  <div class="results" id="results"></div>
+
+  <script>
+async function login() {
+  const username = document.getElementById('username').value;
+  const password = document.getElementById('password').value;
+  const status = document.getElementById('login-status');
+
+  const response = await fetch('/login', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ username, password })
+  });
+
+  const result = await response.json();
+  if (result.success) {
+    status.textContent = "Login successful!";
+    document.getElementById('login-section').style.display = 'none';
+    document.getElementById('interests').disabled = false;
+    document.getElementById('appCatalog').disabled = false;
+  } else {
+    status.textContent = "Login failed. Try again.";
+  }
+}
+
+    async function matchApps() {
+      const interestsInput = document.getElementById('interests').value;
+      const catalogInput = document.getElementById('appCatalog').value;
+      const resultsDiv = document.getElementById('results');
+
+      let interests = interestsInput.split(',').map(i => i.trim()).filter(i => i);
+      let appCatalog;
+
+      try {
+        appCatalog = JSON.parse(catalogInput);
+      } catch (e) {
+        resultsDiv.innerHTML = "<p style='color:red;'>Invalid JSON format in App Catalog.</p>";
+        return;
+      }
+
+      const response = await fetch('/match-apps', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ interests, appCatalog })
+      });
+
+      const data = await response.json();
+
+      if (data.error) {
+        resultsDiv.innerHTML = `<p style='color:red;'>${data.error}</p>`;
+      } else {
+        resultsDiv.innerHTML = `<h2>Matched Apps:</h2>` + data.matchedApps.map(app =>
+          `<div class="app"><strong>${app.name}</strong><br/>Tags: ${app.tags.join(', ')}</div>`
+        ).join('');
+      }
+    }
+  </script>
+</body>
+</html>

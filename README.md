@@ -11,8 +11,7 @@
 1. Ensure you have `nodemon` and `concurrently` installed.
     * See [here](https://www.npmjs.com/package/nodemon) and [here](https://www.npmjs.com/package/concurrently)
 2. Setup `.\client\.env` as shown
-    * Obtain Firebase SDK Config values via `Firebase > Project Settings > General`, scroll to "Your apps", And select "Corgo Tech
-"
+    * Obtain Firebase SDK Config values via `Firebase > Project Settings > General`, scroll to "Your apps", And select "Corgo Tech"
     * Replace `<Port>` with the port used for the server (next step).
     ```
     # Firebase
@@ -26,6 +25,10 @@
     # API
     REACT_APP_BASE_URL=http://localhost:<Port>/api
     ```
+
+    * Repeat for `.\client-admin\.env` but this time:
+        * In "Your apps", select "Corgo Admin"
+        * Add `PORT=3001`.
 3. Setup `.\server\.env` as shown
     * `<Port>` can be whatever, but is typically `5000`
     ```

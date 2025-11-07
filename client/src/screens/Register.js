@@ -6,6 +6,7 @@ import { useAuth } from "../contexts/AuthContext";
 import { apiCall } from "../utils/API"; 
 
 const Register = () => {
+
 	const navigate = useNavigate();
 
 	const [fname, setFname] = useState('');
@@ -25,6 +26,7 @@ const Register = () => {
 	);
 
     async function handleSubmit(e) {
+		// TODO: Ensure fname, and lname fields are filled
 		try {
 			e.preventDefault();
 			await register(email, password);
@@ -38,34 +40,39 @@ const Register = () => {
 			// navigate("/app");
 		} catch (error) {
 			alert("Failed to register!")
+			console.error("Error", error)
 		}
 	}
 
     return (
         <>
 			<div className="content-center">
+				<h1 className="tab-header">Create Account</h1>
 				<form onSubmit={handleSubmit}>
-					<h1 className="tab-header">Create Account</h1>
 					<div className="form-fields">
 						<InputSingleLine
+							id={'fname'}
 							type = {'text'}
 							placeholder = {'First Name'}
 							required={true}
 							value = {setFname}
 						/>
 						<InputSingleLine
+							id={'lname'}
 							type = {'text'}
 							placeholder = {'Last Name'}
 							required={true}
 							value = {setLname}
 						/>
 						<InputSingleLine
+							id={'email'}
 							type = {'email'}
 							placeholder = {'Email Address'}
 							required={true}
 							value = {setEmail}
 						/>
 						<InputSingleLine
+							id={'password'}
 							type = {'password'}
 							placeholder = {'Password'}
 							required={true}
@@ -73,6 +80,7 @@ const Register = () => {
 						/>
 						<Button 
 							label={'Register'}
+							type={'submit'}
 							action={() => {}}
 						/>
 					</div>

@@ -1,9 +1,11 @@
 # Getting started
 1. Clone repo
-2. Open a terminal
-3. `cd` into project directory
-4. `cd client` then `npm install`
-5. `cd ..\server` then `npm install`
+2. Ensure you have Node.JS Installed
+3. Open a terminal
+4. `cd` into project directory
+5. `cd client` then `npm install`
+6. `cd ..\client-admin` then `npm install`
+7. `cd ..\server` then `npm install`
 
 # Prior to running application
 1. Ensure you have `nodemon` and `concurrently` installed.
@@ -36,5 +38,6 @@
 
 
 # To run application
+1. `cd ..\` to the root of the project
 1. At the root of the project, run the following:
     * `npm start`

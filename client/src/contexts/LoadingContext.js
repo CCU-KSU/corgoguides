@@ -1,18 +1,19 @@
-import { Children, createContext, useContext, useEffect, useState } from 'react';
+import { createContext, useContext, useState, useCallback, useMemo } from 'react';
 
 const LoadingContext = createContext();
 export const useLoading = () => useContext(LoadingContext);
 
-export const LoadingProvider = ({ children }) => {
-    const [isLoading, setIsLoading] = useState(true);
-    const loadingStart = () => setIsLoading(true);
-    const loadingFinish = () => setIsLoading(false);
+export const LoadingProvider = ({children}) => {
+    const [isLoading, setIsLoading] = useState(false);
 
-    const value = {
+    const updateLoading = useCallback((loading) => {
+        setIsLoading(loading);
+    }, []);
+
+    const value = useMemo(() => ({
         isLoading,
-        loadingStart,
-        loadingFinish
-    }
+        updateLoading,
+    }), [isLoading, updateLoading]);
 
     return (
         <LoadingContext.Provider value={value}>

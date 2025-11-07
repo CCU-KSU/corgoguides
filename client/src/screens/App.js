@@ -1,61 +1,85 @@
-import { useState, useEffect } from "react";
-import { useNavigate, Routes, Route, Outlet, Link } from "react-router-dom";
+import { useState } from "react";
+import { Routes, Route, Navigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
-import Button from "../components/button/Button";
 
-import { apiCall } from "../utils/API";
+import Body from "../components/body/Body";
+import Header from "../components/header/Header";
+
+import NavBarV2 from "../components/navbar/NavBarV2";
+import NavBarButtonV2 from "../components/navbar/NavBarButtonV2";
+import NavIconGuides from "../assets/icons/book-open-svgrepo-com.svg"
+import ButtonIconBookmark from "../assets/icons/bookmark-svgrepo-com.svg"
+import NavIconApps from "../assets/icons/square-4-grid-svgrepo-com.svg"
+import NavIconProfile from "../assets/icons/user-svgrepo-com.svg"
+
+import Feed from "../components/feed/Feed";
+import ArticlePage from "../components/article/ArticlePage";
+import Bookmarks from "../components/bookmarks/Bookmarks";
+import AppCatalog from "../components/appcatalog/AppCatalog";
+import Profile from "../components/profile/Profile";
 
 function App() {
-	const navigate = useNavigate();
+	const [headerLbl, setHeaderLbl] = useState('Home')
+	const [showHeader, setShowHeader] = useState(true);
+	const { currentUser } = useAuth();
 
-	const { currentUser, logout } = useAuth();
-
-	const [userData, setUserData] = useState(null);
-
-	useEffect(() => {
-		const fetchUserData = async () => {
-			try {
-				const p = await apiCall("/user/current");
-				setUserData(p)
-			} catch (error) {
-				console.error(error);
-			}
-		};
-		fetchUserData();
-	}, []);
-
-	const handleLogout = async () => {
-		try {
-			await logout()
-			navigate("/login")
-		} catch (error) {
-			alert("Failed to logout!")
-		}
-	}
+	const updateHeader = (newLabel, visibility = true) => {
+		setHeaderLbl(newLabel);
+		setShowHeader(visibility)
+	};
 
 	return (
 		<>
-            <div className="content-center list-box">
-				<Routes>
-					{/* The "index" route matches the parent path: /app */}
-					<Route index element={
-						<>
-							<h1>Hello, {userData?.firstName}!</h1>
-							<Button 
-								label={'Log Out'}
-								action={handleLogout}
-							/>
-							<Link to="article" className="button">Sample Article</Link>
-						</>
-					}/>
-					{/* Matches: /app/article */}
-					<Route path="article" element={
-						<>
-						{/* TODO: Replace with article Component */}
-							<h1>Boo!</h1>
-						</>
-					}/>
-				</Routes>
+            <div className="main-body">
+				{showHeader && <Header label={headerLbl}/>}
+				<Body>
+					<Routes>
+						<Route path='' element={<Navigate to="feed" replace />} />
+						<Route path="feed" element={
+							<>
+								<Feed setHeader={updateHeader}/>
+							</>
+						}/>
+						<Route path="bookmarks" element={
+							<>
+								<Bookmarks setHeader={updateHeader}/>
+							</>
+						}/>
+						<Route path="appcatalog" element={
+							<>
+								<AppCatalog setHeader={updateHeader}/>
+							</>
+						}/>
+						<Route path="profile" element={
+							<>
+								<Profile setHeader={updateHeader}/>
+							</>
+						}/>
+						<Route path="article/:id" element={
+							<>
+								<ArticlePage setHeader={updateHeader}/>
+							</>
+						}/>
+					</Routes>
+				</Body>
+				<NavBarV2 baseNav={'/app'}>
+					<NavBarButtonV2
+						iconRef={NavIconGuides}
+						navTo={'feed'}
+					/>
+					{currentUser && <NavBarButtonV2
+						iconRef={ButtonIconBookmark}
+						navTo={'bookmarks'}
+					/>}
+					<NavBarButtonV2
+						iconRef={NavIconApps}
+						navTo={'appcatalog'}
+					/>
+					<NavBarButtonV2
+						iconRef={NavIconProfile}
+						navTo={'profile'}
+					/>
+				</NavBarV2>
             </div>
         </>
 	);

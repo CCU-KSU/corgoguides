@@ -30,20 +30,23 @@ const Login = () => {
 		} catch (error) {
 			alert("Failed to login!")
 		}
-	}
+	};
+	
     return (
         <>
 			<div className="content-center">
+				<h1 className="tab-header">Welcome Back!</h1>
 				<form onSubmit={handleSubmit}>
-					<h1 className="tab-header">Welcome Back!</h1>
 					<div className="form-fields">
 						<InputSingleLine
+							id={'email'}
 							type = {'email'}
 							placeholder = {'Email Address'}
 							required={true}
 							value = {setEmail}
 						/>
 						<InputSingleLine
+							id={'password'}
 							type = {'password'}
 							placeholder = {'Password'}
 							required={true}
@@ -51,6 +54,7 @@ const Login = () => {
 						/>
 						<Button 
 							label={'Login'}
+							type={'submit'}
 							action={() => {}}
 						/>
 						<Link1

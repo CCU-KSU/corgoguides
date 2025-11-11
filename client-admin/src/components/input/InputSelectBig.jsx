@@ -1,8 +1,12 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Select from "react-select"
 
-const InputSelectBig = ({id, placeholder, required, options, value, label}) => {
-    const [data, setValue] = useState([]);
+const InputSelectBig = ({id, placeholder, required, options, value, initialValue, label}) => {
+    const [data, setValue] = useState(initialValue || []);
+
+    useEffect(() => {
+            setValue(initialValue || []);
+        }, [initialValue]);
 
     const handleChange = (selectedOptions) => {
         const newData = selectedOptions.map(obj => obj.value);

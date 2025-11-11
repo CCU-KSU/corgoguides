@@ -1,8 +1,12 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
-const InputSingleLine = ({id, type, placeholder, required, value, label}) => {
+const InputSingleLine = ({id, type, placeholder, required, value, label, initialValue}) => {
 
-    const [data, setValue] = useState('');
+    const [data, setValue] = useState(initialValue || '');
+
+    useEffect(() => {
+        setValue(initialValue || '');
+    }, [initialValue]);
 
     const handleChange = (e) => {
         const newData = e.target.value;
